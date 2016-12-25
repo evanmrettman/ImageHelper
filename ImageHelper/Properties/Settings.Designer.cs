@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ImageSorter.Properties
+namespace ImageHelper.Properties
 {
 
 

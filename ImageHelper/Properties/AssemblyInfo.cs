@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("ImageSorter")]
+[assembly: AssemblyTitle("ImageHelper")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("ImageSorter")]
+[assembly: AssemblyProduct("ImageHelper")]
 [assembly: AssemblyCopyright("Copyright ©  2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("f4ef486c-c7e7-4e3d-8dd1-cd3ac312550c")]
+[assembly: Guid("6ebebaaf-b2cd-495f-a578-cb33570b4742")]
 
 // Version information for an assembly consists of the following four values:
 //

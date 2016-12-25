@@ -1,2 +1,2 @@
-# ImageCropper
-A program made in C# to allow for simpler file sorting with clicking.
+# ImageHelper
+A program made to help sorting/cropping/deleting image files.
