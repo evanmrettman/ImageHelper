@@ -17,10 +17,10 @@ namespace ImageHelper
         // Variables
 
         private const String SAVE_DIRECTORY = "DATA\\";
-        private const String SAVE_SORTER = "config_sort.txt";
-        private const String SAVE_CROPPER = "config_crop.txt";
-        private const String SAVE_DELETE = "config_delete.txt";
-        private const String SAVE_DUPE = "config_dupe.txt";
+        private const String NAME_SORT = "config_sort.txt";
+        private const String NAME_CROP = "config_crop.txt";
+        private const String NAME_DELETE = "config_delete.txt";
+        private const String NAME_DUPE = "config_dupe.txt";
         private const String PROGRAM_NAME = "ImageHelper";
         private const String VERSION_NUMBER = "0.2";
         private const String CREATOR = "Evan Rettman";
@@ -122,7 +122,7 @@ namespace ImageHelper
                     dir.Dispose();
                     btn.Dispose();
                     outputflow_resize();
-                    save_data(0);
+                    save_crop();
                 }
                 else
                 {
@@ -150,7 +150,7 @@ namespace ImageHelper
                             tsslError.Text = "No Error";
                             dir.Text = fbd.SelectedPath;
                             btn.Text = "☒";
-                            save_data(0);
+                            save_crop();
                             outputflow_add();
                         } else
                         {
@@ -170,55 +170,67 @@ namespace ImageHelper
             outputflow_add(null);
         }
 
-        private void save_data(int data_set)
+        private void save_sort()
+        {
+            System.IO.StreamWriter f = new System.IO.StreamWriter(SAVE_DIRECTORY + NAME_SORT);
+            if (Directory.Exists(txtInputFolder.Text))
+            {
+                f.WriteLine(txtInputFolder.Text);
+            }
+            else
+            {
+                f.WriteLine("");
+            }
+            foreach (Control txt in flpOutputFolders.Controls)
+            {
+                if (txt is TextBox)
+                    if (Directory.Exists(txt.Text))
+                        f.WriteLine(txt.Text);
+            }
+            f.Close();
+        }
+
+        private void save_crop()
+        {
+            System.IO.StreamWriter f = new System.IO.StreamWriter(SAVE_DIRECTORY + NAME_CROP);
+            f.Close();
+        }
+
+        private void save_delete()
+        {
+            System.IO.StreamWriter f = new System.IO.StreamWriter(SAVE_DIRECTORY + NAME_DELETE);
+            f.Close();
+        }
+
+        private void save_dupe()
+        {
+            System.IO.StreamWriter f = new System.IO.StreamWriter(SAVE_DIRECTORY + NAME_DUPE);
+            f.Close();
+        }
+
+        private void save_data()
         {
             if (!Directory.Exists(SAVE_DIRECTORY))
                 Directory.CreateDirectory(SAVE_DIRECTORY);
-            switch (data_set)
-            {
-                case 0:
-                    System.IO.StreamWriter f0 = new System.IO.StreamWriter(SAVE_DIRECTORY + SAVE_SORTER);
-                    if (Directory.Exists(txtInputFolder.Text))
-                    {
-                        f0.WriteLine(txtInputFolder.Text);
-                    } else
-                    {
-                        f0.WriteLine("");
-                    }
-                    foreach(Control txt in flpOutputFolders.Controls)
-                    {
-                        if (txt is TextBox)
-                            if (Directory.Exists(txt.Text))
-                                f0.WriteLine(txt.Text);
-                    }
-                    f0.Close();
-                    break;
-                case 1:
-                    System.IO.StreamWriter f1 = new System.IO.StreamWriter(SAVE_DIRECTORY + SAVE_CROPPER);
-                    f1.Close();
-                    break;
-                case 2:
-                    System.IO.StreamWriter f2 = new System.IO.StreamWriter(SAVE_DIRECTORY + SAVE_DELETE);
-                    f2.Close();
-                    break;
-                case 3:
-                    System.IO.StreamWriter f3 = new System.IO.StreamWriter(SAVE_DIRECTORY + SAVE_DUPE);
-                    f3.Close();
-                    break;
-                default:
-                    // idk
-                    break;
-            }
+
+            // sort save
+            save_sort();
+            // crop saved
+            save_crop();
+            // delete save
+            save_delete();
+            // dupe save
+            save_dupe();
         }
 
         private void load_data()
         {
-            if (!File.Exists(SAVE_DIRECTORY+SAVE_SORTER))
+            if (!File.Exists(SAVE_DIRECTORY+NAME_SORT))
             {
-                save_data(0);
+                save_sort();
             } else
             {
-                System.IO.StreamReader f0 = new System.IO.StreamReader(SAVE_DIRECTORY + SAVE_SORTER);
+                System.IO.StreamReader f0 = new System.IO.StreamReader(SAVE_DIRECTORY + NAME_SORT);
                 var line = f0.ReadLine();
                 if (Directory.Exists(line))
                     txtInputFolder.Text = line;
@@ -232,28 +244,28 @@ namespace ImageHelper
                 outputflow_add();
                 f0.Close();
             }
-            if (!File.Exists(SAVE_DIRECTORY+SAVE_CROPPER))
+            if (!File.Exists(SAVE_DIRECTORY+NAME_CROP))
             {
-                save_data(1);
+                save_crop();
             } else
             {
-                System.IO.StreamReader f1 = new System.IO.StreamReader(SAVE_DIRECTORY + SAVE_CROPPER);
+                System.IO.StreamReader f1 = new System.IO.StreamReader(SAVE_DIRECTORY + NAME_CROP);
                 f1.Close();
             }
-            if (!File.Exists(SAVE_DIRECTORY + SAVE_DELETE))
+            if (!File.Exists(SAVE_DIRECTORY + NAME_DELETE))
             {
-                save_data(2);
+                save_delete();
             } else
             {
-                System.IO.StreamReader f2 = new System.IO.StreamReader(SAVE_DIRECTORY + SAVE_DELETE);
+                System.IO.StreamReader f2 = new System.IO.StreamReader(SAVE_DIRECTORY + NAME_DELETE);
                 f2.Close();
             }
-            if (!File.Exists(SAVE_DIRECTORY+SAVE_DUPE))
+            if (!File.Exists(SAVE_DIRECTORY+NAME_DUPE))
             {
-                save_data(3);
+                save_dupe();
             } else
             {
-                System.IO.StreamReader f3 = new System.IO.StreamReader(SAVE_DIRECTORY + SAVE_DUPE);
+                System.IO.StreamReader f3 = new System.IO.StreamReader(SAVE_DIRECTORY + NAME_DUPE);
                 f3.Close();
             }
         }
@@ -288,10 +300,7 @@ namespace ImageHelper
 
         private void OnProcessExit(object sender, EventArgs e)
         {
-            save_data(0);
-            save_data(1);
-            save_data(2);
-            save_data(3);
+            save_data();
         }
 
         // Menu Strip
@@ -308,7 +317,7 @@ namespace ImageHelper
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            save_data(cbModeSelection.SelectedIndex);
+            save_data();
         }
 
         // Main Form Controls
@@ -404,7 +413,7 @@ namespace ImageHelper
             if (fbd.ShowDialog() == DialogResult.OK)
             {
                 txtInputFolder.Text = fbd.SelectedPath;
-                save_data(0);
+                save_sort();
             }
 
         }
