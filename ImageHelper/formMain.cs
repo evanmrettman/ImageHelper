@@ -370,7 +370,7 @@ namespace ImageHelper
                         formSorter.ShowDialog();
                         this.Show();
                         this.Focus();
-                    } else if(get_files(txtInputFolder.Text).Count == 0)
+                    } else if(input && get_files(txtInputFolder.Text).Count == 0)
                     {
                         tsslError.Text = "There are no files in the input folder.";
                     } else
