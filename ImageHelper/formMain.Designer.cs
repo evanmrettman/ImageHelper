@@ -36,31 +36,31 @@
             this.label1 = new System.Windows.Forms.Label();
             this.cbModeSelection = new System.Windows.Forms.ComboBox();
             this.btnConfirmConfig = new System.Windows.Forms.Button();
-            this.panel_imageSorter = new System.Windows.Forms.Panel();
+            this.panel_imageSort = new System.Windows.Forms.Panel();
             this.flpOutputFolders = new System.Windows.Forms.FlowLayoutPanel();
             this.label3 = new System.Windows.Forms.Label();
             this.btnChangeInput = new System.Windows.Forms.Button();
             this.txtInputFolder = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.panel_imageCropper = new System.Windows.Forms.Panel();
+            this.tsslError = new System.Windows.Forms.ToolStripStatusLabel();
+            this.panel_imageCrop = new System.Windows.Forms.Panel();
             this.button2 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
-            this.panel_imageDeleter = new System.Windows.Forms.Panel();
+            this.panel_imageDelete = new System.Windows.Forms.Panel();
             this.button3 = new System.Windows.Forms.Button();
             this.textBox3 = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
-            this.panel_imageDupeDeleter = new System.Windows.Forms.Panel();
-            this.tsslError = new System.Windows.Forms.ToolStripStatusLabel();
+            this.panel_imageDupe = new System.Windows.Forms.Panel();
             this.menuStrip1.SuspendLayout();
-            this.panel_imageSorter.SuspendLayout();
+            this.panel_imageSort.SuspendLayout();
             this.statusStrip1.SuspendLayout();
-            this.panel_imageCropper.SuspendLayout();
-            this.panel_imageDeleter.SuspendLayout();
+            this.panel_imageCrop.SuspendLayout();
+            this.panel_imageDelete.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -86,14 +86,14 @@
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(98, 22);
             this.saveToolStripMenuItem.Text = "Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(98, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -134,18 +134,18 @@
             this.btnConfirmConfig.UseVisualStyleBackColor = true;
             this.btnConfirmConfig.Click += new System.EventHandler(this.btnConfirmConfig_Click);
             // 
-            // panel_imageSorter
+            // panel_imageSort
             // 
-            this.panel_imageSorter.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel_imageSorter.Controls.Add(this.flpOutputFolders);
-            this.panel_imageSorter.Controls.Add(this.label3);
-            this.panel_imageSorter.Controls.Add(this.btnChangeInput);
-            this.panel_imageSorter.Controls.Add(this.txtInputFolder);
-            this.panel_imageSorter.Controls.Add(this.label2);
-            this.panel_imageSorter.Location = new System.Drawing.Point(12, 67);
-            this.panel_imageSorter.Name = "panel_imageSorter";
-            this.panel_imageSorter.Size = new System.Drawing.Size(260, 168);
-            this.panel_imageSorter.TabIndex = 5;
+            this.panel_imageSort.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel_imageSort.Controls.Add(this.flpOutputFolders);
+            this.panel_imageSort.Controls.Add(this.label3);
+            this.panel_imageSort.Controls.Add(this.btnChangeInput);
+            this.panel_imageSort.Controls.Add(this.txtInputFolder);
+            this.panel_imageSort.Controls.Add(this.label2);
+            this.panel_imageSort.Location = new System.Drawing.Point(12, 67);
+            this.panel_imageSort.Name = "panel_imageSort";
+            this.panel_imageSort.Size = new System.Drawing.Size(260, 168);
+            this.panel_imageSort.TabIndex = 5;
             // 
             // flpOutputFolders
             // 
@@ -206,19 +206,26 @@
             this.statusStrip1.TabIndex = 1;
             this.statusStrip1.Text = "statusStrip1";
             // 
-            // panel_imageCropper
+            // tsslError
             // 
-            this.panel_imageCropper.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel_imageCropper.Controls.Add(this.button2);
-            this.panel_imageCropper.Controls.Add(this.button1);
-            this.panel_imageCropper.Controls.Add(this.textBox2);
-            this.panel_imageCropper.Controls.Add(this.label5);
-            this.panel_imageCropper.Controls.Add(this.label4);
-            this.panel_imageCropper.Controls.Add(this.textBox1);
-            this.panel_imageCropper.Location = new System.Drawing.Point(315, 40);
-            this.panel_imageCropper.Name = "panel_imageCropper";
-            this.panel_imageCropper.Size = new System.Drawing.Size(260, 168);
-            this.panel_imageCropper.TabIndex = 6;
+            this.tsslError.Name = "tsslError";
+            this.tsslError.Size = new System.Drawing.Size(51, 17);
+            this.tsslError.Text = "No Error";
+            // 
+            // panel_imageCrop
+            // 
+            this.panel_imageCrop.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel_imageCrop.Controls.Add(this.button2);
+            this.panel_imageCrop.Controls.Add(this.button1);
+            this.panel_imageCrop.Controls.Add(this.textBox2);
+            this.panel_imageCrop.Controls.Add(this.label5);
+            this.panel_imageCrop.Controls.Add(this.label4);
+            this.panel_imageCrop.Controls.Add(this.textBox1);
+            this.panel_imageCrop.Location = new System.Drawing.Point(315, 40);
+            this.panel_imageCrop.Name = "panel_imageCrop";
+            this.panel_imageCrop.Size = new System.Drawing.Size(260, 168);
+            this.panel_imageCrop.TabIndex = 6;
+            this.panel_imageCrop.Visible = false;
             // 
             // button2
             // 
@@ -278,16 +285,17 @@
             this.textBox1.TabIndex = 6;
             this.textBox1.Text = "No input folder selected.";
             // 
-            // panel_imageDeleter
+            // panel_imageDelete
             // 
-            this.panel_imageDeleter.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel_imageDeleter.Controls.Add(this.button3);
-            this.panel_imageDeleter.Controls.Add(this.textBox3);
-            this.panel_imageDeleter.Controls.Add(this.label6);
-            this.panel_imageDeleter.Location = new System.Drawing.Point(581, 40);
-            this.panel_imageDeleter.Name = "panel_imageDeleter";
-            this.panel_imageDeleter.Size = new System.Drawing.Size(260, 168);
-            this.panel_imageDeleter.TabIndex = 7;
+            this.panel_imageDelete.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel_imageDelete.Controls.Add(this.button3);
+            this.panel_imageDelete.Controls.Add(this.textBox3);
+            this.panel_imageDelete.Controls.Add(this.label6);
+            this.panel_imageDelete.Location = new System.Drawing.Point(581, 40);
+            this.panel_imageDelete.Name = "panel_imageDelete";
+            this.panel_imageDelete.Size = new System.Drawing.Size(260, 168);
+            this.panel_imageDelete.TabIndex = 7;
+            this.panel_imageDelete.Visible = false;
             // 
             // button3
             // 
@@ -318,29 +326,24 @@
             this.label6.TabIndex = 10;
             this.label6.Text = "Input Folder";
             // 
-            // panel_imageDupeDeleter
+            // panel_imageDupe
             // 
-            this.panel_imageDupeDeleter.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel_imageDupeDeleter.Location = new System.Drawing.Point(315, 214);
-            this.panel_imageDupeDeleter.Name = "panel_imageDupeDeleter";
-            this.panel_imageDupeDeleter.Size = new System.Drawing.Size(260, 168);
-            this.panel_imageDupeDeleter.TabIndex = 6;
-            // 
-            // tsslError
-            // 
-            this.tsslError.Name = "tsslError";
-            this.tsslError.Size = new System.Drawing.Size(51, 17);
-            this.tsslError.Text = "No Error";
+            this.panel_imageDupe.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel_imageDupe.Location = new System.Drawing.Point(315, 214);
+            this.panel_imageDupe.Name = "panel_imageDupe";
+            this.panel_imageDupe.Size = new System.Drawing.Size(260, 168);
+            this.panel_imageDupe.TabIndex = 6;
+            this.panel_imageDupe.Visible = false;
             // 
             // formMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(857, 414);
-            this.Controls.Add(this.panel_imageDupeDeleter);
-            this.Controls.Add(this.panel_imageDeleter);
-            this.Controls.Add(this.panel_imageCropper);
-            this.Controls.Add(this.panel_imageSorter);
+            this.Controls.Add(this.panel_imageDupe);
+            this.Controls.Add(this.panel_imageDelete);
+            this.Controls.Add(this.panel_imageCrop);
+            this.Controls.Add(this.panel_imageSort);
             this.Controls.Add(this.btnConfirmConfig);
             this.Controls.Add(this.cbModeSelection);
             this.Controls.Add(this.label1);
@@ -353,17 +356,17 @@
             this.Name = "formMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.WindowsDefaultBounds;
             this.Text = "formName";
-            this.Load += new System.EventHandler(this.Form1_Load);
+            this.Load += new System.EventHandler(this.formMain_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
-            this.panel_imageSorter.ResumeLayout(false);
-            this.panel_imageSorter.PerformLayout();
+            this.panel_imageSort.ResumeLayout(false);
+            this.panel_imageSort.PerformLayout();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
-            this.panel_imageCropper.ResumeLayout(false);
-            this.panel_imageCropper.PerformLayout();
-            this.panel_imageDeleter.ResumeLayout(false);
-            this.panel_imageDeleter.PerformLayout();
+            this.panel_imageCrop.ResumeLayout(false);
+            this.panel_imageCrop.PerformLayout();
+            this.panel_imageDelete.ResumeLayout(false);
+            this.panel_imageDelete.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -378,12 +381,12 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ComboBox cbModeSelection;
         private System.Windows.Forms.Button btnConfirmConfig;
-        private System.Windows.Forms.Panel panel_imageSorter;
+        private System.Windows.Forms.Panel panel_imageSort;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
-        private System.Windows.Forms.Panel panel_imageCropper;
-        private System.Windows.Forms.Panel panel_imageDeleter;
-        private System.Windows.Forms.Panel panel_imageDupeDeleter;
+        private System.Windows.Forms.Panel panel_imageCrop;
+        private System.Windows.Forms.Panel panel_imageDelete;
+        private System.Windows.Forms.Panel panel_imageDupe;
         private System.Windows.Forms.Button btnChangeInput;
         private System.Windows.Forms.TextBox txtInputFolder;
         private System.Windows.Forms.Label label2;

@@ -26,6 +26,10 @@ namespace ImageHelper
         private const String CREATOR = "Evan Rettman";
         private const String LICENSE = "MIT License\n\nCopyright (c) 2016 Evan Rettman\n\nPermission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the \"Software\"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.\n\n THE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER, LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.";
 
+        // ease of use
+        public Panel[] panel_array = new Panel[4];
+        
+
         // value passing for other forms
         public static String sorter_input = "";
         public static List<String> sorter_output = new List<String>();
@@ -40,40 +44,17 @@ namespace ImageHelper
                  .ToList();
         }
 
-        private void panel_enable(int panel)
+        private void panel_visible(int panel_enable)
         {
-            switch (panel)
+            for(int i = 0; i < panel_array.Length; i++)
             {
-                case 0:
-                    panel_imageSorter.Visible = true;
-                    panel_imageCropper.Visible = false;
-                    panel_imageDeleter.Visible = false;
-                    panel_imageDupeDeleter.Visible = false;
-                    break;
-                case 1:
-                    panel_imageSorter.Visible = false;
-                    panel_imageCropper.Visible = true;
-                    panel_imageDeleter.Visible = false;
-                    panel_imageDupeDeleter.Visible = false;
-                    break;
-                case 2:
-                    panel_imageSorter.Visible = false;
-                    panel_imageCropper.Visible = false;
-                    panel_imageDeleter.Visible = true;
-                    panel_imageDupeDeleter.Visible = false;
-                    break;
-                case 3:
-                    panel_imageSorter.Visible = false;
-                    panel_imageCropper.Visible = false;
-                    panel_imageDeleter.Visible = false;
-                    panel_imageDupeDeleter.Visible = true;
-                    break;
-                default:
-                    panel_imageSorter.Visible = true;
-                    panel_imageCropper.Visible = false;
-                    panel_imageDeleter.Visible = false;
-                    panel_imageDupeDeleter.Visible = false;
-                    break;
+                if (i == panel_enable)
+                {
+                    panel_array[i].Visible = true;
+                } else 
+                {
+                    panel_array[i].Visible = false;
+                }
             }
     }
 
@@ -122,7 +103,7 @@ namespace ImageHelper
                     dir.Dispose();
                     btn.Dispose();
                     outputflow_resize();
-                    save_crop();
+                    save_sort();
                 }
                 else
                 {
@@ -150,7 +131,7 @@ namespace ImageHelper
                             tsslError.Text = "No Error";
                             dir.Text = fbd.SelectedPath;
                             btn.Text = "☒";
-                            save_crop();
+                            save_sort();
                             outputflow_add();
                         } else
                         {
@@ -277,45 +258,45 @@ namespace ImageHelper
             InitializeComponent();
         }
 
-        private void Form1_Load(object sender, EventArgs e)
+        private void formMain_Load(object sender, EventArgs e) // On Load
         {
             this.Name = PROGRAM_NAME + " v" + VERSION_NUMBER;
             this.Text = this.Name;
             this.Height = 300;
             this.Width = 300;
-            cbModeSelection.Items.Add("Image Sorter");
-            //cbModeSelection.Items.Add("Image Cropper");
-            //cbModeSelection.Items.Add("Image Deleter");
-            //cbModeSelection.Items.Add("Image Dupe Deleter");
-            cbModeSelection.SelectedIndex = cbModeSelection.Items.IndexOf("Image Sorter");
-            Point p = new Point(12, 67);
-            panel_imageSorter.Location = p;
-            panel_imageCropper.Location = p;
-            panel_imageDeleter.Location = p;
-            panel_imageDupeDeleter.Location = p;
-            panel_enable(0);
+            panel_array = new Panel[4] { panel_imageSort, panel_imageCrop, panel_imageDelete, panel_imageDupe };
             load_data();
-
+            Point p = new Point(12, 67);
+            panel_imageSort.Location = p;
+            panel_imageCrop.Location = p;
+            panel_imageDelete.Location = p;
+            panel_imageDupe.Location = p;
+            cbModeSelection.Items.Add("Image Sorter");
+            cbModeSelection.Items.Add("Image Cropper (WIP)");
+            cbModeSelection.Items.Add("Image Deleter");
+            cbModeSelection.Items.Add("Image Dupe Deleter");
+            cbModeSelection.SelectedIndex = cbModeSelection.Items.IndexOf("Image Sorter");
+            //panel_enable(0);
         }
 
-        private void OnProcessExit(object sender, EventArgs e)
+        private void OnProcessExit(object sender, EventArgs e) // Save data when program is closed
         {
             save_data();
         }
 
         // Menu Strip
 
-        private void aboutToolStripMenuItem_Click(object sender, EventArgs e) // Displays about us message box.
+        private void aboutToolStripMenuItem_Click(object sender, EventArgs e) // Displays about us message bo.
         {
             MessageBox.Show("Program: " + PROGRAM_NAME + " v" + VERSION_NUMBER + "\nDeveloper(s): " + CREATOR + "\n\n" + LICENSE + "\n\nThank you for using my program. :)");
         }
 
-        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e) // Exit Program
         {
             Application.Exit();
         }
 
-        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        private void saveToolStripMenuItem_Click(object sender, EventArgs e) // Save all data sets
         {
             save_data();
         }
@@ -324,27 +305,10 @@ namespace ImageHelper
 
         private void cbModeSelection_SelectedIndexChanged(object sender, EventArgs e) // Change currently displayed mode
         {
-            switch(cbModeSelection.SelectedIndex)
-            {
-                case 0:
-                    panel_enable(0);
-                    break;
-                case 1:
-                    panel_enable(1);
-                    break;
-                case 2:
-                    panel_enable(2);
-                    break;
-                case 3:
-                    panel_enable(3);
-                    break;
-                default:
-                    panel_enable(1);
-                    break;
-            }
+            panel_visible(cbModeSelection.SelectedIndex);
         }
 
-        private void btnConfirmConfig_Click(object sender, EventArgs e)
+        private void btnConfirmConfig_Click(object sender, EventArgs e) // Confirm check for starting mode
         {
             switch(cbModeSelection.SelectedIndex)
             {
