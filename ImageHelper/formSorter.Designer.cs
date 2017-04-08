@@ -29,14 +29,14 @@
         private void InitializeComponent()
         {
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.tsslCount = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.tsslFolder = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.tsslFile = new System.Windows.Forms.ToolStripStatusLabel();
             this.ibFile = new System.Windows.Forms.PictureBox();
             this.flpOutputFolders = new System.Windows.Forms.FlowLayoutPanel();
             this.btnDelete = new System.Windows.Forms.Button();
-            this.tsslFolder = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.tsslCount = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.tsslFile = new System.Windows.Forms.ToolStripStatusLabel();
             this.label1 = new System.Windows.Forms.Label();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ibFile)).BeginInit();
@@ -55,6 +55,36 @@
             this.statusStrip1.Size = new System.Drawing.Size(646, 22);
             this.statusStrip1.TabIndex = 1;
             this.statusStrip1.Text = "statusStrip1";
+            // 
+            // tsslCount
+            // 
+            this.tsslCount.Name = "tsslCount";
+            this.tsslCount.Size = new System.Drawing.Size(57, 17);
+            this.tsslCount.Text = "tsslCount";
+            // 
+            // toolStripStatusLabel1
+            // 
+            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(10, 17);
+            this.toolStripStatusLabel1.Text = "|";
+            // 
+            // tsslFolder
+            // 
+            this.tsslFolder.Name = "tsslFolder";
+            this.tsslFolder.Size = new System.Drawing.Size(57, 17);
+            this.tsslFolder.Text = "tsslFolder";
+            // 
+            // toolStripStatusLabel2
+            // 
+            this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
+            this.toolStripStatusLabel2.Size = new System.Drawing.Size(10, 17);
+            this.toolStripStatusLabel2.Text = "|";
+            // 
+            // tsslFile
+            // 
+            this.tsslFile.Name = "tsslFile";
+            this.tsslFile.Size = new System.Drawing.Size(42, 17);
+            this.tsslFile.Text = "tsslFile";
             // 
             // ibFile
             // 
@@ -91,36 +121,6 @@
             this.btnDelete.UseVisualStyleBackColor = true;
             this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
             // 
-            // tsslFolder
-            // 
-            this.tsslFolder.Name = "tsslFolder";
-            this.tsslFolder.Size = new System.Drawing.Size(57, 17);
-            this.tsslFolder.Text = "tsslFolder";
-            // 
-            // toolStripStatusLabel1
-            // 
-            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(10, 17);
-            this.toolStripStatusLabel1.Text = "|";
-            // 
-            // tsslCount
-            // 
-            this.tsslCount.Name = "tsslCount";
-            this.tsslCount.Size = new System.Drawing.Size(57, 17);
-            this.tsslCount.Text = "tsslCount";
-            // 
-            // toolStripStatusLabel2
-            // 
-            this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
-            this.toolStripStatusLabel2.Size = new System.Drawing.Size(10, 17);
-            this.toolStripStatusLabel2.Text = "|";
-            // 
-            // tsslFile
-            // 
-            this.tsslFile.Name = "tsslFile";
-            this.tsslFile.Size = new System.Drawing.Size(42, 17);
-            this.tsslFile.Text = "tsslFile";
-            // 
             // label1
             // 
             this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -145,6 +145,7 @@
             this.Name = "formSorter";
             this.StartPosition = System.Windows.Forms.FormStartPosition.WindowsDefaultBounds;
             this.Text = "formSorter";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.formSorter_FormClosing);
             this.Load += new System.EventHandler(this.formSorter_Load);
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();

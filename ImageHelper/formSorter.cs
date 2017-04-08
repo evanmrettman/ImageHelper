@@ -18,6 +18,7 @@ namespace ImageHelper
 
         private String input_folder = "";
         private List<String> output_folders = new List<String>();
+        private List<String> files = new List<String>();
 
         // Custom Functions
 
@@ -33,21 +34,28 @@ namespace ImageHelper
             return files;
         }
 
+        private void dispose_image()
+        {
+            if (ibFile.Image != null)
+            {
+                ibFile.Image.Dispose();
+            }
+        }
+
         private void buttons_add()
         {
             for (int i = 0; i < output_folders.Count; i++)
             {
                 Button btn = new Button();
                 btn.Size = new Size(56, 56);//new Size(44, 44);
-                btn.Text = output_folders[i].Substring(output_folders[i].LastIndexOf("\\")).Remove(0, 1);
-                btn.Tag = i;
-                btn.Click += (s, e) =>
+                btn.Text = output_folders[i].Substring(output_folders[i].LastIndexOf("\\")).Remove(0, 1); // display text based on folder name
+                btn.Tag = i; // button tag
+                btn.Click += (s, e) => // button click event
                 {
-                    var files = get_files();
-                    var source = files[0];
-                    var dest = output_folders[(int) btn.Tag] + "\\" + files[0].Substring(files[0].LastIndexOf("\\")).Remove(0, 1);
-                    var n = 0;
-                    while (File.Exists(dest))
+                    var source = files[0]; //grab shown image
+                    var dest = output_folders[(int) btn.Tag] + "\\" + files[0].Substring(files[0].LastIndexOf("\\")).Remove(0, 1); // final destination for picture
+                    var n = 0; // number counter for duplicate file name
+                    while (File.Exists(dest)) // rename file if file exists in destination directory
                     {
                         var dest_noEXT = dest.Substring(0, dest.LastIndexOf("."));
                         var dest_ext = dest.Substring(dest.LastIndexOf("."));
@@ -59,24 +67,25 @@ namespace ImageHelper
                             dest = dest_noEXT + " (" + n + ")" + dest_ext;
                         }
                     }
-                    try
+                    try // try to move file
                     {
-                        if (files.Count > 1)
+                        if (files.Count > 1) // if more images exist
                         {
-                            get_image(1);
-                            File.Move(source, dest);
-                        } else
+                            get_image(1); // get next image
+                            files.RemoveAt(0); // remove current image from list
+                            File.Move(source, dest); // move image to destination
+                        } else 
                         {
-                            ibFile.Image.Dispose();
-                            File.Move(source, dest);
-                            this.Close();
+                            dispose_image(); // clear image on window
+                            File.Move(source, dest); // move image to destination
+                            this.Close(); // close the sorting window
                         }
-                    } catch (Exception error)
+                    } catch (Exception error) // error occured
                     {
-                        MessageBox.Show(error.ToString());
+                        MessageBox.Show(error.ToString()); // print error
                     }
                 };
-                flpOutputFolders.Controls.Add(btn);
+                flpOutputFolders.Controls.Add(btn); // add button to 
             }
         }
 
@@ -87,17 +96,13 @@ namespace ImageHelper
 
         private void get_image(int index)
         {
-            var files = get_files();
-            if (ibFile.Image != null)
-            {
-                ibFile.Image.Dispose(); // cleanup
-            }
-            if (files.Count > 0)
+            dispose_image(); // image cleanup
+            if (files.Count > 0) // if images are left
             {
                 ibFile.Image = Image.FromFile(files[index]); // set new image to file
             } else
             {
-                this.Close();
+                this.Close(); // close window because no images are left (failsafe)
             }
         }
 
@@ -110,49 +115,51 @@ namespace ImageHelper
 
         private void formSorter_Load(object sender, EventArgs e)
         {
-            input_folder = formMain.sorter_input;
-            output_folders = formMain.sorter_output;
-            this.Size = new Size(800, 608);
-            this.Hide();
-            buttons_add();
-            get_image();
+            input_folder = formMain.sorter_input; // get input folders
+            output_folders = formMain.sorter_output; // get output folders
+            this.Size = new Size(800, 608); // set size (default)
+            this.Hide(); // hide main form
+            files = get_files(); // get files from input folder
+            buttons_add(); // add all buttons to canvas
+            get_image(); // get first image
         }
 
-        private void formSorter_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        private void formSorter_FormClosing(object sender, FormClosingEventArgs e)
         {
-
+            dispose_image(); // cleanup image
         }
 
         // Main Form Controls
         
         private void btnDelete_Click(object sender, EventArgs e)
         {
-            var files = get_files();
             try
             {
                 if (files.Count > 1)
                 {
-                    get_image(1);
-                    File.Delete(files[0]);
+                    get_image(1); // get next image in list
+                    File.Delete(files[0]); // delete file
+                    files.RemoveAt(0); // remove current image from list
                 }
                 else
                 {
-                    ibFile.Image.Dispose();
-                    File.Delete(files[0]);
-                    this.Close();
+                    dispose_image(); // image cleanup
+                    File.Delete(files[0]); // delete file
+                    this.Close(); // close form
                 }
             }
             catch (Exception error)
             {
-                MessageBox.Show(error.ToString());
+                MessageBox.Show(error.ToString()); // error occured when deleting image
             }
         }
 
         private void ibFile_Click(object sender, EventArgs e)
         {
-            MouseEventArgs me = (MouseEventArgs)e;
-            if (me.Button == MouseButtons.Right)
-                System.Diagnostics.Process.Start("explorer.exe", "/select, \"" + get_files()[0] + "\"");
+            MouseEventArgs me = (MouseEventArgs)e; // get mouse button event
+            if (me.Button == MouseButtons.Right) // if right click
+                System.Diagnostics.Process.Start("explorer.exe", "/select, \"" + get_files()[0] + "\""); // open file in explorer
         }
+
     }
 }

@@ -37,10 +37,10 @@
             this.cbModeSelection = new System.Windows.Forms.ComboBox();
             this.btnConfirmConfig = new System.Windows.Forms.Button();
             this.panel_imageSort = new System.Windows.Forms.Panel();
-            this.flpOutputFolders = new System.Windows.Forms.FlowLayoutPanel();
+            this.flpSortOutputFolders = new System.Windows.Forms.FlowLayoutPanel();
             this.label3 = new System.Windows.Forms.Label();
             this.btnChangeInput = new System.Windows.Forms.Button();
-            this.txtInputFolder = new System.Windows.Forms.TextBox();
+            this.txtSortInputFolder = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.tsslError = new System.Windows.Forms.ToolStripStatusLabel();
@@ -56,11 +56,13 @@
             this.textBox3 = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.panel_imageDupe = new System.Windows.Forms.Panel();
+            this.flpDupeFolderCheck = new System.Windows.Forms.FlowLayoutPanel();
             this.menuStrip1.SuspendLayout();
             this.panel_imageSort.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.panel_imageCrop.SuspendLayout();
             this.panel_imageDelete.SuspendLayout();
+            this.panel_imageDupe.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -137,24 +139,24 @@
             // panel_imageSort
             // 
             this.panel_imageSort.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel_imageSort.Controls.Add(this.flpOutputFolders);
+            this.panel_imageSort.Controls.Add(this.flpSortOutputFolders);
             this.panel_imageSort.Controls.Add(this.label3);
             this.panel_imageSort.Controls.Add(this.btnChangeInput);
-            this.panel_imageSort.Controls.Add(this.txtInputFolder);
+            this.panel_imageSort.Controls.Add(this.txtSortInputFolder);
             this.panel_imageSort.Controls.Add(this.label2);
             this.panel_imageSort.Location = new System.Drawing.Point(12, 67);
             this.panel_imageSort.Name = "panel_imageSort";
             this.panel_imageSort.Size = new System.Drawing.Size(260, 168);
             this.panel_imageSort.TabIndex = 5;
             // 
-            // flpOutputFolders
+            // flpSortOutputFolders
             // 
-            this.flpOutputFolders.AutoScroll = true;
-            this.flpOutputFolders.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.flpOutputFolders.Location = new System.Drawing.Point(-1, 60);
-            this.flpOutputFolders.Name = "flpOutputFolders";
-            this.flpOutputFolders.Size = new System.Drawing.Size(260, 107);
-            this.flpOutputFolders.TabIndex = 5;
+            this.flpSortOutputFolders.AutoScroll = true;
+            this.flpSortOutputFolders.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.flpSortOutputFolders.Location = new System.Drawing.Point(-1, 60);
+            this.flpSortOutputFolders.Name = "flpSortOutputFolders";
+            this.flpSortOutputFolders.Size = new System.Drawing.Size(260, 107);
+            this.flpSortOutputFolders.TabIndex = 5;
             // 
             // label3
             // 
@@ -176,15 +178,15 @@
             this.btnChangeInput.UseVisualStyleBackColor = true;
             this.btnChangeInput.Click += new System.EventHandler(this.btnChangeInput_Click);
             // 
-            // txtInputFolder
+            // txtSortInputFolder
             // 
-            this.txtInputFolder.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtInputFolder.Location = new System.Drawing.Point(3, 20);
-            this.txtInputFolder.Name = "txtInputFolder";
-            this.txtInputFolder.ReadOnly = true;
-            this.txtInputFolder.Size = new System.Drawing.Size(224, 20);
-            this.txtInputFolder.TabIndex = 1;
-            this.txtInputFolder.Text = "No input folder selected.";
+            this.txtSortInputFolder.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtSortInputFolder.Location = new System.Drawing.Point(3, 20);
+            this.txtSortInputFolder.Name = "txtSortInputFolder";
+            this.txtSortInputFolder.ReadOnly = true;
+            this.txtSortInputFolder.Size = new System.Drawing.Size(224, 20);
+            this.txtSortInputFolder.TabIndex = 1;
+            this.txtSortInputFolder.Text = "No input folder selected.";
             // 
             // label2
             // 
@@ -329,11 +331,20 @@
             // panel_imageDupe
             // 
             this.panel_imageDupe.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel_imageDupe.Controls.Add(this.flpDupeFolderCheck);
             this.panel_imageDupe.Location = new System.Drawing.Point(315, 214);
             this.panel_imageDupe.Name = "panel_imageDupe";
             this.panel_imageDupe.Size = new System.Drawing.Size(260, 168);
             this.panel_imageDupe.TabIndex = 6;
             this.panel_imageDupe.Visible = false;
+            // 
+            // flpDupeFolderCheck
+            // 
+            this.flpDupeFolderCheck.AutoScroll = true;
+            this.flpDupeFolderCheck.Location = new System.Drawing.Point(-1, -1);
+            this.flpDupeFolderCheck.Name = "flpDupeFolderCheck";
+            this.flpDupeFolderCheck.Size = new System.Drawing.Size(260, 168);
+            this.flpDupeFolderCheck.TabIndex = 0;
             // 
             // formMain
             // 
@@ -367,6 +378,7 @@
             this.panel_imageCrop.PerformLayout();
             this.panel_imageDelete.ResumeLayout(false);
             this.panel_imageDelete.PerformLayout();
+            this.panel_imageDupe.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -388,10 +400,10 @@
         private System.Windows.Forms.Panel panel_imageDelete;
         private System.Windows.Forms.Panel panel_imageDupe;
         private System.Windows.Forms.Button btnChangeInput;
-        private System.Windows.Forms.TextBox txtInputFolder;
+        private System.Windows.Forms.TextBox txtSortInputFolder;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.FlowLayoutPanel flpOutputFolders;
+        private System.Windows.Forms.FlowLayoutPanel flpSortOutputFolders;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.TextBox textBox2;
@@ -402,6 +414,7 @@
         private System.Windows.Forms.TextBox textBox3;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.ToolStripStatusLabel tsslError;
+        private System.Windows.Forms.FlowLayoutPanel flpDupeFolderCheck;
     }
 }
 

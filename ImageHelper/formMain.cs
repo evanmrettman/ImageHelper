@@ -14,29 +14,31 @@ namespace ImageHelper
     public partial class formMain : Form
     {
 
-        // Variables
+        // TODO Star rating system for images.
+        // TODO Tag implimentation for sorting.
+        // TODO Slideshow
+        // TODO Form data saving (position / maximize)
 
+
+        // Constants
         private const String SAVE_DIRECTORY = "DATA\\";
         private const String NAME_SORT = "config_sort.txt";
         private const String NAME_CROP = "config_crop.txt";
         private const String NAME_DELETE = "config_delete.txt";
         private const String NAME_DUPE = "config_dupe.txt";
         private const String PROGRAM_NAME = "ImageHelper";
-        private const String VERSION_NUMBER = "0.2";
+        private const String VERSION_NUMBER = "0.5";
         private const String CREATOR = "Evan Rettman";
         private const String LICENSE = "MIT License\n\nCopyright (c) 2016 Evan Rettman\n\nPermission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the \"Software\"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.\n\n THE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER, LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.";
 
-        // ease of use
-        public Panel[] panel_array = new Panel[4];
+        // Variables
+        private Panel[] panel_array = new Panel[4];
         
-
-        // value passing for other forms
+        // Public Variables for Form Passing
         public static String sorter_input = "";
         public static List<String> sorter_output = new List<String>();
 
-        // Custom Functions
-
-        private List<String> get_files(String folder)
+        private List<String> get_files(String folder) // Gets all image files within the specified folder
         {
             var ext = new List<string> { ".jpg", ".gif", ".png" };
             return Directory.GetFiles(folder, "*", SearchOption.AllDirectories)
@@ -44,7 +46,7 @@ namespace ImageHelper
                  .ToList();
         }
 
-        private void panel_visible(int panel_enable)
+        private void panel_visible(int panel_enable) // Makes the panel visible and all others invisible
         {
             for(int i = 0; i < panel_array.Length; i++)
             {
@@ -58,27 +60,28 @@ namespace ImageHelper
             }
     }
 
-        private void outputflow_resize()
+        // Flow Layout Panel Stuff
+
+        private void outputflow_resize(FlowLayoutPanel flp) // Button resize for when vertical scroll bar shows up
         {
-            if (flpOutputFolders.VerticalScroll.Visible == false)
+            if (flp.VerticalScroll.Visible == false)
             {
-                foreach (Control tb in flpOutputFolders.Controls)
+                foreach (Control tb in flp.Controls)
                 {
                     if (tb is TextBox)
                         tb.Size = new Size(222, 20);
                 }
-            }
-            else
+            }else
             {
-                foreach (Control tb in flpOutputFolders.Controls)
+                foreach (Control tb in flp.Controls)
                 {
                     if (tb is TextBox)
                         tb.Size = new Size(205, 20);
                 }
             }
         }
-        
-        private void outputflow_add(String file)
+
+        private void sort_outputflow_add(String file) // Adds a button/textbox to layout with the specified file path
         {
             TextBox dir = new TextBox();
             Button btn = new Button();
@@ -98,25 +101,25 @@ namespace ImageHelper
             {
                 if (btn.Text == "☒")
                 {
-                    flpOutputFolders.Controls.Remove(dir);
-                    flpOutputFolders.Controls.Remove(btn);
+                    flpSortOutputFolders.Controls.Remove(dir);
+                    flpSortOutputFolders.Controls.Remove(btn);
                     dir.Dispose();
                     btn.Dispose();
-                    outputflow_resize();
+                    outputflow_resize(flpSortOutputFolders);
                     save_sort();
                 }
                 else
                 {
                     FolderBrowserDialog fbd = new FolderBrowserDialog();
                     fbd.Description = "Choose an output folder.\nThis is a folder the images are sorted into.";
-                    if (Directory.Exists(txtInputFolder.Text))
-                        fbd.SelectedPath = txtInputFolder.Text;
+                    if (Directory.Exists(txtSortInputFolder.Text))
+                        fbd.SelectedPath = txtSortInputFolder.Text;
                     fbd.ShowNewFolderButton = false;
 
                     if (fbd.ShowDialog() == DialogResult.OK)
                     {
                         var unique = true;
-                        foreach(Control c in flpOutputFolders.Controls)
+                        foreach(Control c in flpSortOutputFolders.Controls)
                         {
                             if(c is TextBox)
                             {
@@ -132,7 +135,7 @@ namespace ImageHelper
                             dir.Text = fbd.SelectedPath;
                             btn.Text = "☒";
                             save_sort();
-                            outputflow_add();
+                            sort_outputflow_add(null);
                         } else
                         {
                             tsslError.Text = "Non-unique output folder.";
@@ -140,29 +143,98 @@ namespace ImageHelper
                     }
                 }
             };
-            flpOutputFolders.Controls.Add(btn);
-            flpOutputFolders.Controls.Add(dir);
-            flpOutputFolders.VerticalScroll.Value = flpOutputFolders.VerticalScroll.Maximum;
-            outputflow_resize();
+            flpSortOutputFolders.Controls.Add(btn);
+            flpSortOutputFolders.Controls.Add(dir);
+            flpSortOutputFolders.VerticalScroll.Value = flpSortOutputFolders.VerticalScroll.Maximum;
+            outputflow_resize(flpSortOutputFolders);
         }
 
-        private void outputflow_add()
+        private void dupe_outputflow_add(String file) // Adds a button/textbox to layout with the specified file path
         {
-            outputflow_add(null);
+            TextBox dir = new TextBox();
+            Button btn = new Button();
+            dir.ReadOnly = true;
+            dir.Size = new Size(205, 20);
+            btn.Size = new Size(22, 22);
+            if (file == null)
+            {
+                dir.Text = "Click the button to add a folder to the check list.";
+                btn.Text = "_";
+            }
+            else
+            {
+                dir.Text = file;
+                btn.Text = "☒";
+            }
+            btn.Click += (s, e) => // handle output folder button dynamic creation click event
+            {
+                if (btn.Text == "☒")
+                {
+                    flpDupeFolderCheck.Controls.Remove(dir);
+                    flpDupeFolderCheck.Controls.Remove(btn);
+                    dir.Dispose();
+                    btn.Dispose();
+                    outputflow_resize(flpDupeFolderCheck);
+                    save_sort();
+                }
+                else
+                {
+                    FolderBrowserDialog fbd = new FolderBrowserDialog();
+                    fbd.Description = "Choose an output folder.\nThis is a folder the images are sorted into.";
+                    if (Directory.Exists(txtSortInputFolder.Text))
+                        fbd.SelectedPath = txtSortInputFolder.Text;
+                    fbd.ShowNewFolderButton = false;
+
+                    if (fbd.ShowDialog() == DialogResult.OK)
+                    {
+                        var unique = true;
+                        var given_path = fbd.SelectedPath;
+                        foreach (Control c in flpSortOutputFolders.Controls)
+                        {
+                            if (c is TextBox)
+                            {
+                                if (c.Text == given_path)
+                                {
+                                    unique = false;
+                                }
+                            }
+                        }
+                        
+                        if (unique)
+                        {
+                            tsslError.Text = "No Error";
+                            dir.Text = given_path;
+                            btn.Text = "☒";
+                            save_sort();
+                            dupe_outputflow_add(null);
+                        }
+                        else
+                        {
+                            tsslError.Text = "Non-unique output folder given.";
+                        }
+                    }
+                }
+            };
+            flpDupeFolderCheck.Controls.Add(btn);
+            flpDupeFolderCheck.Controls.Add(dir);
+            flpDupeFolderCheck.VerticalScroll.Value = flpDupeFolderCheck.VerticalScroll.Maximum;
+            outputflow_resize(flpDupeFolderCheck);
         }
 
-        private void save_sort()
+        // Save & Load
+
+        private void save_sort() // Saves sort data
         {
             System.IO.StreamWriter f = new System.IO.StreamWriter(SAVE_DIRECTORY + NAME_SORT);
-            if (Directory.Exists(txtInputFolder.Text))
+            if (Directory.Exists(txtSortInputFolder.Text))
             {
-                f.WriteLine(txtInputFolder.Text);
+                f.WriteLine(txtSortInputFolder.Text);
             }
             else
             {
                 f.WriteLine("");
             }
-            foreach (Control txt in flpOutputFolders.Controls)
+            foreach (Control txt in flpSortOutputFolders.Controls)
             {
                 if (txt is TextBox)
                     if (Directory.Exists(txt.Text))
@@ -171,25 +243,88 @@ namespace ImageHelper
             f.Close();
         }
 
-        private void save_crop()
+        private void load_sort() // Loads sort data
+        {
+            if (!File.Exists(SAVE_DIRECTORY + NAME_SORT))
+            {
+                save_sort();
+            }
+            else
+            {
+                System.IO.StreamReader f = new System.IO.StreamReader(SAVE_DIRECTORY + NAME_SORT);
+                var line = f.ReadLine();
+                if (Directory.Exists(line))
+                    txtSortInputFolder.Text = line;
+                line = f.ReadLine();
+                while (line != null)
+                {
+                    if (Directory.Exists(line))
+                        sort_outputflow_add(line);
+                    line = f.ReadLine();
+                }
+                sort_outputflow_add(null);
+                f.Close();
+            }
+        }
+
+        private void save_crop() // Saves crop data
         {
             System.IO.StreamWriter f = new System.IO.StreamWriter(SAVE_DIRECTORY + NAME_CROP);
             f.Close();
         }
 
-        private void save_delete()
+        private void load_crop() // Loads crop data
+        {
+            if (!File.Exists(SAVE_DIRECTORY + NAME_CROP))
+            {
+                save_crop();
+            }
+            else
+            {
+                System.IO.StreamReader f = new System.IO.StreamReader(SAVE_DIRECTORY + NAME_CROP);
+                f.Close();
+            }
+        }
+
+        private void save_delete() // Saves delete data
         {
             System.IO.StreamWriter f = new System.IO.StreamWriter(SAVE_DIRECTORY + NAME_DELETE);
             f.Close();
         }
 
-        private void save_dupe()
+        private void load_delete() // Loads delete data
+        {
+            if (!File.Exists(SAVE_DIRECTORY + NAME_DELETE))
+            {
+                save_delete();
+            }
+            else
+            {
+                System.IO.StreamReader f = new System.IO.StreamReader(SAVE_DIRECTORY + NAME_DELETE);
+                f.Close();
+            }
+        }
+
+        private void save_dupe() // Saves dupe data
         {
             System.IO.StreamWriter f = new System.IO.StreamWriter(SAVE_DIRECTORY + NAME_DUPE);
             f.Close();
         }
 
-        private void save_data()
+        private void load_dupe() // Loads dupe data
+        {
+            if (!File.Exists(SAVE_DIRECTORY + NAME_DUPE))
+            {
+                save_dupe();
+            }
+            else
+            {
+                System.IO.StreamReader f = new System.IO.StreamReader(SAVE_DIRECTORY + NAME_DUPE);
+                f.Close();
+            }
+        } 
+
+        private void save_data() // Save all mode data
         {
             if (!Directory.Exists(SAVE_DIRECTORY))
                 Directory.CreateDirectory(SAVE_DIRECTORY);
@@ -204,51 +339,72 @@ namespace ImageHelper
             save_dupe();
         }
 
-        private void load_data()
+        private void load_data() // Loads the game data on start
         {
-            if (!File.Exists(SAVE_DIRECTORY+NAME_SORT))
+            load_sort();
+            load_crop();
+            load_delete();
+            load_dupe();
+        }
+
+        // Confirm button code
+
+        private void confirm_sort() // Sorting Mode Confirm
+        {
+            var input = Directory.Exists(txtSortInputFolder.Text);
+            var output = true;
+            List<String> output_files = new List<String>();
+            foreach (Control txt in flpSortOutputFolders.Controls)
             {
-                save_sort();
-            } else
-            {
-                System.IO.StreamReader f0 = new System.IO.StreamReader(SAVE_DIRECTORY + NAME_SORT);
-                var line = f0.ReadLine();
-                if (Directory.Exists(line))
-                    txtInputFolder.Text = line;
-                line = f0.ReadLine();
-                while (line != null)
+                if (txt is TextBox)
                 {
-                    if (Directory.Exists(line))
-                        outputflow_add(line);
-                    line = f0.ReadLine();
+                    if (txt.Text != "Click the button to add an output folder.")
+                        output_files.Add(txt.Text);
+                    if (txt.Text != "Click the button to add an output folder." && !Directory.Exists(txt.Text))
+                    {
+                        output = false;
+                        if (!txt.Text.StartsWith("INVALID PATH: "))
+                        {
+                            txt.Text = "INVALID PATH: " + txt.Text;
+                        }
+                    }
                 }
-                outputflow_add();
-                f0.Close();
             }
-            if (!File.Exists(SAVE_DIRECTORY+NAME_CROP))
+            if (input && output && output_files.Count() > 0 && get_files(txtSortInputFolder.Text).Count != 0)
             {
-                save_crop();
-            } else
-            {
-                System.IO.StreamReader f1 = new System.IO.StreamReader(SAVE_DIRECTORY + NAME_CROP);
-                f1.Close();
+                tsslError.Text = "No Error";
+                sorter_input = txtSortInputFolder.Text;
+                sorter_output = output_files;
+                this.Hide();
+                formSorter formSorter = new formSorter();
+                formSorter.Text = this.Text + ": Sorter";
+                formSorter.ShowDialog();
+                this.Show();
+                this.Focus();
             }
-            if (!File.Exists(SAVE_DIRECTORY + NAME_DELETE))
+            else if (input && get_files(txtSortInputFolder.Text).Count == 0)
             {
-                save_delete();
-            } else
-            {
-                System.IO.StreamReader f2 = new System.IO.StreamReader(SAVE_DIRECTORY + NAME_DELETE);
-                f2.Close();
+                tsslError.Text = "There are no files in the input folder.";
             }
-            if (!File.Exists(SAVE_DIRECTORY+NAME_DUPE))
+            else
             {
-                save_dupe();
-            } else
-            {
-                System.IO.StreamReader f3 = new System.IO.StreamReader(SAVE_DIRECTORY + NAME_DUPE);
-                f3.Close();
+                tsslError.Text = "Error occured. Check input and output folders.";
             }
+        }
+
+        private void confirm_crop() // Cropping Mode Confirm
+        {
+
+        }
+
+        private void confirm_delete() // Deleter Mode Confirm
+        {
+
+        }
+
+        private void confirm_dupe() // Dupe Deleter Mode Confirm
+        {
+
         }
 
         // Form Load
@@ -313,52 +469,19 @@ namespace ImageHelper
             switch(cbModeSelection.SelectedIndex)
             {
                 case 0:
-                    var input = Directory.Exists(txtInputFolder.Text);
-                    var output = true;
-                    List<String> output_files = new List<String>();
-                    foreach (Control txt in flpOutputFolders.Controls)
-                    {
-                        if (txt is TextBox)
-                        {
-                            if (txt.Text != "Click the button to add an output folder.")
-                                output_files.Add(txt.Text);
-                            if (txt.Text != "Click the button to add an output folder." && !Directory.Exists(txt.Text))
-                            {
-                                output = false;
-                                if (!txt.Text.StartsWith("INVALID PATH: "))
-                                {
-                                    txt.Text = "INVALID PATH: " + txt.Text;
-                                }
-                            }
-                        }
-                    }
-                    if (input && output && output_files.Count() > 0 && get_files(txtInputFolder.Text).Count != 0)
-                    {
-                        tsslError.Text = "No Error";
-                        sorter_input = txtInputFolder.Text;
-                        sorter_output = output_files;
-                        this.Hide();
-                        formSorter formSorter = new formSorter();
-                        formSorter.Text = this.Text + ": Sorter";
-                        formSorter.ShowDialog();
-                        this.Show();
-                        this.Focus();
-                    } else if(input && get_files(txtInputFolder.Text).Count == 0)
-                    {
-                        tsslError.Text = "There are no files in the input folder.";
-                    } else
-                    {
-                        tsslError.Text = "Error occured. Check input and output folders.";
-                    }
+                    confirm_sort();
                     break;
                 case 1:
+                    confirm_crop();
                     break;
                 case 2:
+                    confirm_delete();
                     break;
                 case 3:
+                    confirm_dupe();
                     break;
                 default:
-                    //????
+                    MessageBox.Show("873usfdj49t8 Confirm Config Button Press: This should not appear.");
                     break;
             }
             
@@ -370,13 +493,13 @@ namespace ImageHelper
         {
             FolderBrowserDialog fbd = new FolderBrowserDialog();
             fbd.Description = "Choose the input folder.\nThis is the folder images are sorted from.";
-            if (Directory.Exists(txtInputFolder.Text))
-                fbd.SelectedPath = txtInputFolder.Text;
+            if (Directory.Exists(txtSortInputFolder.Text))
+                fbd.SelectedPath = txtSortInputFolder.Text;
             fbd.ShowNewFolderButton = false;
 
             if (fbd.ShowDialog() == DialogResult.OK)
             {
-                txtInputFolder.Text = fbd.SelectedPath;
+                txtSortInputFolder.Text = fbd.SelectedPath;
                 save_sort();
             }
 
